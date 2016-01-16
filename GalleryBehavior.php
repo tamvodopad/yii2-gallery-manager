@@ -198,12 +198,19 @@ class GalleryBehavior extends Behavior
         );
     }
 
-    public function getUrl($imageId, $version = 'original')
+    public function getUrl($imageId, $version = 'original', $extension=null)
     {
+        if ($extension != null) {
+
+        }
         $path = $this->getFilePath($imageId, $version);
 
         if (!file_exists($path)) {
-            return null;
+            $this->extension = 'gif';
+            $path = $this->getFilePath($imageId, $version);
+            if (!file_exists($path)) {
+                return null;
+            }
         }
 
         if (!empty($this->timeHash)) {
@@ -228,8 +235,12 @@ class GalleryBehavior extends Behavior
      * @param $imageId
      * @param $path
      */
-    public function replaceImage($imageId, $path)
+    public function replaceImage($imageId, $path, $extension=null)
     {
+        $path_data = pathinfo($path);
+        if ($extension != null) {
+            $this->extension = $extension;
+        }
         $this->createFolders($this->getFilePath($imageId, 'original'));
 
         $originalImage = Image::getImagine()->open($path);
@@ -324,7 +335,7 @@ class GalleryBehavior extends Behavior
         }
     }
 
-    public function addImage($fileName)
+    public function addImage($fileName, $extension=null)
     {
         $db = \Yii::$app->db;
         $db->createCommand()
@@ -344,7 +355,7 @@ class GalleryBehavior extends Behavior
                 ['id' => $id]
             )->execute();
 
-        $this->replaceImage($id, $fileName);
+        $this->replaceImage($id, $fileName, $extension);
 
         $galleryImage = new GalleryImage($this, ['id' => $id]);
 

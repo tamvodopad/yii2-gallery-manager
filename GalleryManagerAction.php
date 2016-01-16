@@ -107,9 +107,11 @@ class GalleryManagerAction extends Action
     {
 
         $imageFile = UploadedFile::getInstanceByName('image');
-
+        if($imageFile->type == 'image/gif') {
+            $extension = 'gif';
+        }
         $fileName = $imageFile->tempName;
-        $image = $this->behavior->addImage($fileName);
+        $image = $this->behavior->addImage($fileName, $extension);
 
         // not "application/json", because  IE8 trying to save response as a file
 
