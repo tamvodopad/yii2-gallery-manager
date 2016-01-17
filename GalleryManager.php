@@ -59,7 +59,9 @@ class GalleryManager extends Widget
         }
 
         $images = array();
+        $extension = $this->behavior->extension;
         foreach ($this->behavior->getImages() as $image) {
+            $this->behavior->extension = $extension;
             $images[] = array(
                 'id' => $image->id,
                 'rank' => $image->rank,
