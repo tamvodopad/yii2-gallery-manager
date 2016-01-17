@@ -178,7 +178,9 @@ class GalleryBehavior extends Behavior
                 ->all();
 
             $this->_images = [];
+            $dafault_extension = $this->extension;
             foreach ($imagesData as $imageData) {
+                $this->extension = $dafault_extension;
                 $this->_images[] = new GalleryImage($this, $imageData);
             }
         }
