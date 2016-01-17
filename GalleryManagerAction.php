@@ -107,6 +107,7 @@ class GalleryManagerAction extends Action
     {
 
         $imageFile = UploadedFile::getInstanceByName('image');
+        $extension = null;
         if($imageFile->type == 'image/gif') {
             $extension = 'gif';
         }
